@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>5 Whys RCA — Referral Rate for High-Risk Pregnancies</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f7f4; color: #1a1a18; line-height: 1.6; }
+.page { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+.tag { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 6px; letter-spacing: .04em; text-transform: uppercase; }
+.tag-problem { background: #f0eefd; color: #3c3489; }
+.tag-answer { background: #e1f5ee; color: #085041; }
+
+.card { background: #fff; border: 0.5px solid #e0dfd8; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+
+.dialogue { margin: .75rem 0; }
+.spk { display: flex; align-items: flex-start; gap: 10px; margin-bottom: .75rem; }
+.av { min-width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+.av-fa { background: #eeedfe; color: #3c3489; }
+.av-cw { background: #e1f5ee; color: #085041; }
+.av-sv { background: #faeeda; color: #633806; }
+.av-do { background: #e6f1fb; color: #0c447c; }
+.av-mw { background: #faece7; color: #712b13; }
+.av-nr { background: #efefed; color: #888780; }
+.bub { background: #f4f3f0; border-radius: 0 10px 10px 10px; padding: .6rem .9rem; font-size: 14px; line-height: 1.65; flex: 1; border: 0.5px solid #e0dfd8; }
+.narr { font-size: 13px; color: #888780; font-style: italic; margin: .25rem 0 .85rem; padding-left: 44px; line-height: 1.6; }
+
+.pause { background: #eeedfe; border-radius: 8px; padding: .9rem 1.1rem; margin: 1rem 0 0; border: 0.5px solid #afa9ec; }
+.pause-t { font-size: 13px; font-weight: 600; color: #3c3489; margin-bottom: .3rem; }
+.pause-b { font-size: 14px; color: #534ab7; line-height: 1.6; }
+
+.answer-wrap { display: none; margin-top: .85rem; }
+.answer-box { background: #f4f3f0; border-radius: 8px; padding: 1rem 1.1rem; border: 0.5px solid #e0dfd8; }
+.answer-lbl { font-size: 11px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
+.answer-txt { font-size: 15px; font-weight: 600; color: #1a1a18; line-height: 1.55; }
+.insight { font-size: 13px; color: #5f5e5a; margin-top: .6rem; line-height: 1.6; padding-top: .6rem; border-top: 0.5px solid #e0dfd8; }
+
+.emerging { background: #e1f5ee; border-radius: 8px; padding: .85rem 1.1rem; margin-top: .75rem; border: 0.5px solid #9fe1cb; }
+.emerging-lbl { font-size: 12px; font-weight: 600; color: #085041; margin-bottom: .3rem; }
+.emerging-q { font-size: 14px; color: #0f6e56; line-height: 1.6; font-style: italic; }
+
+.rootcause { background: #eeedfe; border-radius: 8px; padding: 1.1rem 1.25rem; border: 0.5px solid #afa9ec; margin-top: .85rem; }
+.rootcause-lbl { font-size: 11px; font-weight: 600; color: #534ab7; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
+.rootcause-txt { font-size: 15px; font-weight: 600; color: #26215c; line-height: 1.55; }
+.rootcause-note { font-size: 13px; color: #534ab7; margin-top: .6rem; line-height: 1.6; padding-top: .6rem; border-top: 0.5px solid #afa9ec; }
+
+.btn-reveal { display: inline-flex; align-items: center; gap: 6px; margin-top: .85rem; padding: 9px 18px; border-radius: 8px; border: 0.5px solid #afa9ec; background: transparent; font-size: 14px; font-weight: 600; color: #534ab7; cursor: pointer; transition: background .15s; }
+.btn-reveal:hover { background: #eeedfe; }
+.btn-next { display: inline-flex; align-items: center; gap: 6px; margin-top: .85rem; padding: 9px 18px; border-radius: 8px; border: 0.5px solid #d3d1c7; background: #fff; font-size: 14px; font-weight: 600; color: #1a1a18; cursor: pointer; transition: background .15s; }
+.btn-next:hover { background: #f4f3f0; }
+
+.step-hd { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1rem; }
+.step-num { min-width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.sn-active { background: #eeedfe; color: #3c3489; }
+.step-lbl { font-size: 11px; font-weight: 600; color: #888780; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .3rem; }
+.step-q { font-size: 16px; font-weight: 600; color: #1a1a18; line-height: 1.5; }
+
+.connector { width: 2px; height: 20px; background: #e0dfd8; margin-left: 16px; margin-bottom: -4px; display: none; }
+
+.prog { display: flex; gap: 5px; margin-bottom: 1.75rem; }
+.pd { height: 3px; flex: 1; border-radius: 2px; background: #e0dfd8; transition: background .3s; }
+.pd.done { background: #1d9e75; }
+.pd.active { background: #7f77dd; }
+
+.rca-section { display: none; }
+.rca-section.visible { display: block; }
+
+.chain { display: flex; flex-direction: column; gap: 0; margin: .75rem 0; }
+.ci { display: flex; align-items: flex-start; gap: 10px; }
+.cdot { min-width: 8px; height: 8px; border-radius: 50%; background: #7f77dd; margin-top: 7px; flex-shrink: 0; }
+.cdot.root { background: #085041; }
+.cline { width: 2px; background: #afa9ec; flex-shrink: 0; margin: 0 3px; min-height: 22px; }
+.cline.root { background: transparent; }
+.ctxt { font-size: 13px; color: #1a1a18; line-height: 1.6; padding-bottom: 14px; flex: 1; }
+
+.action-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: .75rem; }
+.ac { border-radius: 8px; padding: .8rem 1rem; border: 0.5px solid #e0dfd8; }
+.ac-bad { background: #fcebeb; border-color: #f7c1c1; }
+.ac-good { background: #e1f5ee; border-color: #9fe1cb; }
+.ac-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .35rem; }
+.ac-bad .ac-lbl { color: #a32d2d; }
+.ac-good .ac-lbl { color: #0f6e56; }
+.ac-txt { font-size: 13px; line-height: 1.55; }
+.ac-bad .ac-txt { color: #791f1f; }
+.ac-good .ac-txt { color: #085041; }
+
+.info-box { background: #eeedfe; border-radius: 8px; padding: .8rem 1.1rem; margin-bottom: 1.5rem; border: 0.5px solid #afa9ec; font-size: 13px; color: #534ab7; line-height: 1.6; }
+
+.leadership-note { background: #e1f5ee; border-radius: 8px; padding: .9rem 1.1rem; margin-top: .75rem; border: 0.5px solid #9fe1cb; }
+.leadership-note-t { font-size: 12px; font-weight: 600; color: #085041; margin-bottom: .3rem; }
+.leadership-note-b { font-size: 13px; color: #0f6e56; line-height: 1.6; }
+
+@media (max-width: 520px) {
+  .action-pair { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="card" style="margin-bottom:1rem;">
+    <div style="margin-bottom:.75rem"><span class="tag tag-problem">The problem</span></div>
+    <p style="font-size:16px; font-weight:600; color:#1a1a18; margin-bottom:.5rem; line-height:1.5">A quarterly data review across six district sites shows that only 34% of pregnancies flagged as high-risk are referred to the hospital within the recommended 48-hour window. The regional target is 80%.</p>
+    <p style="font-size:14px; color:#5f5e5a; line-height:1.6">The clinical leadership team has convened an RCA. They are not investigating a single patient incident — they are investigating a systemic pattern. You are observing their meeting.</p>
+  </div>
+
+  <div class="info-box">
+    &#9432; Watch how each question emerges from the answer before it. In a real 5 Whys, the team never knows in advance what they will ask next.
+  </div>
+
+  <div class="prog" id="prog">
+    <div class="pd active" id="pd1"></div>
+    <div class="pd" id="pd2"></div>
+    <div class="pd" id="pd3"></div>
+    <div class="pd" id="pd4"></div>
+    <div class="pd" id="pd5"></div>
+    <div class="pd" id="pd6"></div>
+  </div>
+
+  <!-- WHY 1 -->
+  <div id="s1" class="rca-section visible">
+    <div class="card">
+      <div class="step-hd">
+        <div class="step-num sn-active">1</div>
+        <div>
+          <div class="step-lbl">The first why</div>
+          <div class="step-q">Why is the referral rate for high-risk pregnancies so far below the 80% target?</div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <div class="spk">
+          <div class="av av-nr">&#9679;</div>
+          <div class="bub" style="background:transparent;border:none;padding:.25rem 0;font-style:italic;color:#888780;font-size:13px;">The facilitator opens the meeting. Present: a program supervisor, two CHW coordinators, a midwife, and a data officer. The team has reviewed the quarterly data together.</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"We're at 34% against an 80% target — and this pattern is consistent across sites. Before we assume we know why, let's hear from those closest to the work. When a CHW identifies a high-risk pregnancy, what actually happens next — in practice?"</div>
+        </div>
+        <div class="spk">
+          <div class="av av-cw">CW</div>
+          <div class="bub">"It depends on the CHW. Some refer right away. Others wait to see if the signs resolve. Some refer, but the woman doesn't go. And honestly — some of our CHWs are not confident about when a referral is truly required."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-mw">MW</div>
+          <div class="bub">"I see this in the records. There is a lot of 'advised to monitor at home' in cases that should have been referred. The pattern is inconsistent — across sites and across individual CHWs."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"So we have inconsistency — not one single failure, but variable practice across the system. The question is: what is driving that inconsistency?"</div>
+        </div>
+      </div>
+      <div class="pause">
+        <div class="pause-t">&#9995; Pause and think</div>
+        <div class="pause-b">The team has identified inconsistent practice. What would you write as the answer to Why 1? And what question does that answer suggest asking next?</div>
+      </div>
+      <button class="btn-reveal" onclick="revealAnswer(1)">&#128065; Reveal the team's answer</button>
+      <div class="answer-wrap" id="r1">
+        <div class="answer-box">
+          <div class="answer-lbl">Answer to Why 1</div>
+          <div class="answer-txt">Referral practice is highly inconsistent — some CHWs refer appropriately, others wait, others are uncertain about the threshold for referral.</div>
+          <div class="insight">The team resists the urge to jump to a solution. Inconsistency is a symptom, not a cause. The real question is: <em>why</em> do CHWs make such different decisions in similar clinical situations?</div>
+        </div>
+        <div class="emerging">
+          <div class="emerging-lbl">&#8594; The question that now emerges</div>
+          <div class="emerging-q">"Why is referral practice so inconsistent — what would cause different CHWs to respond so differently to similar warning signs?"</div>
+        </div>
+        <button class="btn-next" onclick="advance(1)">Continue the investigation &#8595;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector" id="conn1"></div>
+
+  <!-- WHY 2 -->
+  <div id="s2" class="rca-section">
+    <div class="card">
+      <div class="step-hd">
+        <div class="step-num sn-active">2</div>
+        <div>
+          <div class="step-lbl">Why 2 — emerges from the answer above</div>
+          <div class="step-q">Why is referral practice so inconsistent across CHWs?</div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <div class="narr">The data officer pulls up site-level referral records. The supervisor reviews her field notes from this quarter's visits.</div>
+        <div class="spk">
+          <div class="av av-sv">SV</div>
+          <div class="bub">"I've visited eight sites this quarter. The CHWs who refer consistently are mostly those who trained under the revised 2022 protocol — or who have had recent clinical case reviews with a supervisor. The CHWs who hesitate or are uncertain are mostly those who haven't had structured clinical support in a while."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-do">DO</div>
+          <div class="bub">"The data supports that. The two sites with the highest referral rates both had a supervisor-led clinical case review in the last six months. The lowest-performing sites haven't had that kind of support in over a year."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"So CHWs who have had recent, practical reinforcement of the criteria are performing differently from those who haven't. Is this about what they were originally taught — or about whether that knowledge is being actively maintained?"</div>
+        </div>
+        <div class="spk">
+          <div class="av av-cw">CW</div>
+          <div class="bub">"Both, I think. The original training does cover referral criteria. But without reinforcement, it drifts. After a year, a CHW starts relying on personal judgment rather than the protocol — and personal judgment is much more variable."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-mw">MW</div>
+          <div class="bub">"And clinical judgment in the community is very different from inside a facility. There are fewer cues, less backup. The protocol needs to be vivid and practiced — not something she read once two years ago."</div>
+        </div>
+      </div>
+      <div class="pause">
+        <div class="pause-t">&#9995; Pause and think</div>
+        <div class="pause-b">The team is seeing a clear pattern: ongoing clinical reinforcement matters, and some CHWs are not getting it. What is the answer to Why 2 — and what question does it raise?</div>
+      </div>
+      <button class="btn-reveal" onclick="revealAnswer(2)">&#128065; Reveal the team's answer</button>
+      <div class="answer-wrap" id="r2">
+        <div class="answer-box">
+          <div class="answer-lbl">Answer to Why 2</div>
+          <div class="answer-txt">CHWs who receive regular clinical reinforcement and case-based practice apply referral criteria consistently. Those without recent support default to personal judgment, which varies widely and erodes over time.</div>
+          <div class="insight">Notice: the answer wasn't "training is bad." It was more specific — initial training is not enough on its own. What matters is what happens in the months and years that follow. That shapes the next question.</div>
+        </div>
+        <div class="emerging">
+          <div class="emerging-lbl">&#8594; The question that now emerges</div>
+          <div class="emerging-q">"Why do some CHWs receive ongoing clinical reinforcement and others don't — what determines whether a CHW gets that support?"</div>
+        </div>
+        <button class="btn-next" onclick="advance(2)">Continue the investigation &#8595;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector" id="conn2"></div>
+
+  <!-- WHY 3 -->
+  <div id="s3" class="rca-section">
+    <div class="card">
+      <div class="step-hd">
+        <div class="step-num sn-active">3</div>
+        <div>
+          <div class="step-lbl">Why 3 — emerges from the answer above</div>
+          <div class="step-q">Why do some CHWs receive ongoing clinical reinforcement while others don't?</div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <div class="narr">This question opens a harder conversation. The supervisor is now being asked directly about her own role.</div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"When you visit a site, what does that visit actually look like? Walk us through it."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-sv">SV</div>
+          <div class="bub">"I verify the ANC register, check that deliveries are recorded, review the stock log, confirm the data is ready for monthly reporting. That takes most of the visit. If there is time left, I talk through a recent case with the CHW. But it is not planned — it's what's left over."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"Is there anything on your checklist specifically about clinical decision-making or referral practice?"</div>
+        </div>
+        <div class="spk">
+          <div class="av av-sv">SV</div>
+          <div class="bub">"No. The form asks: was the register updated, was stock counted, were reports submitted. Clinical practice is not on the form. So when I am pressed for time — six sites in a week — the case discussion is always what gets dropped first."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-mw">MW</div>
+          <div class="bub">"So the supervision visit is structured around administrative compliance, not clinical development. Those are very different things — and right now, only one of them is protected."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"Let me ask something deeper. When a case discussion does happen — what does it cover? Does the CHW ever learn what happened to a woman after she referred her?"</div>
+        </div>
+        <div class="spk">
+          <div class="av av-sv">SV</div>
+          <div class="bub">"That's a good question. Rarely. We discuss what the CHW observed and what she decided. But the outcome — whether the woman was admitted, what was found at the facility, whether the referral was appropriate in hindsight — we almost never have that information."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-cw">CW</div>
+          <div class="bub">"So the CHW makes a decision, and then it disappears. She never finds out if she was right. She has no way to calibrate her judgment against what actually happened."</div>
+        </div>
+      </div>
+      <div class="pause">
+        <div class="pause-t">&#9995; Pause and think</div>
+        <div class="pause-b">The team has found two connected problems: clinical support is squeezed out of supervision visits, and even when it happens, it lacks something essential — outcome feedback. The CHW is making referral decisions in a closed loop with no return signal. What is the answer to Why 3, and what does it suggest asking next?</div>
+      </div>
+      <button class="btn-reveal" onclick="revealAnswer(3)">&#128065; Reveal the team's answer</button>
+      <div class="answer-wrap" id="r3">
+        <div class="answer-box">
+          <div class="answer-lbl">Answer to Why 3</div>
+          <div class="answer-txt">Clinical reinforcement is squeezed out of supervision visits because the supervision framework is built around administrative tasks, not clinical development. And even when case discussions happen, they lack outcome data — CHWs never learn what happened after a referral, so they cannot reflect on or calibrate their clinical decisions.</div>
+          <div class="insight">This is a significant finding with two parts. The team now needs to understand why supervision was designed this way — and specifically why the connection between the CHW's decision and the facility outcome was never built in.</div>
+        </div>
+        <div class="emerging">
+          <div class="emerging-lbl">&#8594; The question that now emerges</div>
+          <div class="emerging-q">"Why was supervision designed around administrative tasks rather than clinical development — and why is there no mechanism for outcome feedback to reach the CHW?"</div>
+        </div>
+        <button class="btn-next" onclick="advance(3)">Continue the investigation &#8595;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector" id="conn3"></div>
+
+  <!-- WHY 4 -->
+  <div id="s4" class="rca-section">
+    <div class="card">
+      <div class="step-hd">
+        <div class="step-num sn-active">4</div>
+        <div>
+          <div class="step-lbl">Why 4 — emerges from the answer above</div>
+          <div class="step-q">Why was supervision designed around administrative tasks rather than clinical development — and why does no outcome feedback reach the CHW?</div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <div class="narr">The facilitator slows down here. This question is about how two levels of care — community and facility — relate to each other. The midwife and the supervisor both have something important to say.</div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"Let's take those two things separately. First: why does supervision focus on administration rather than clinical practice? And second: why doesn't outcome information flow back from the facility to the CHW?"</div>
+        </div>
+        <div class="spk">
+          <div class="av av-sv">SV</div>
+          <div class="bub">"On the first question — the supervision role was designed to manage a program. Check compliance, compile data, report upward. Clinical mentorship was never written into the role. It was assumed that the initial training handled clinical competency, and supervision handled program accountability. They were treated as separate functions."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-mw">MW</div>
+          <div class="bub">"On the second question — at the facility, we have no system for communicating outcomes back to the referring CHW. When a referred woman arrives, we treat her. We document in the facility register. But that information stays inside the facility. It was never designed to travel back to the community."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"So the community and the facility are operating as two separate systems — with no shared information and no structured communication between them."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-cw">CW</div>
+          <div class="bub">"From the CHW's perspective, the referral is a one-way action. She sends a woman and hears nothing more. She has no idea whether her clinical judgment was sound. Over time, without that feedback, she can't grow — and she may actually become less confident, not more."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-mw">MW</div>
+          <div class="bub">"And from our side at the facility — we never hear what the CHW observed. We don't know what signs she saw, what questions she asked, what made her decide to refer. That information would help us too. We are missing half the clinical picture."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"So there is no shared learning between the two levels of care. Each is doing its work without the benefit of what the other knows. Why has that connection never been built?"</div>
+        </div>
+      </div>
+      <div class="pause">
+        <div class="pause-t">&#9995; Pause and think</div>
+        <div class="pause-b">The team has now identified that community care and facility care operate without a shared learning loop. Neither system is designed to inform the other. What is the answer to Why 4 — and what does it suggest is the deepest question still to be asked?</div>
+      </div>
+      <button class="btn-reveal" onclick="revealAnswer(4)">&#128065; Reveal the team's answer</button>
+      <div class="answer-wrap" id="r4">
+        <div class="answer-box">
+          <div class="answer-lbl">Answer to Why 4</div>
+          <div class="answer-txt">Supervision was designed to manage program compliance, not to develop clinical competency. Community and facility care were built as separate systems with no structured communication channel between them — so clinical outcome information never reaches the CHW, and the CHW's observations never reach the facility. Neither level of care can learn from the other.</div>
+          <div class="insight">The team is now very close to the root. The final question is: why were these two levels of care designed without a connection — and what would it take to build one?</div>
+        </div>
+        <div class="emerging">
+          <div class="emerging-lbl">&#8594; The question that now emerges</div>
+          <div class="emerging-q">"Why were community care and facility care designed without a shared learning loop — and whose leadership responsibility is it to build that connection?"</div>
+        </div>
+        <button class="btn-next" onclick="advance(4)">The final Why &#8595;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector" id="conn4"></div>
+
+  <!-- WHY 5 -->
+  <div id="s5" class="rca-section">
+    <div class="card">
+      <div class="step-hd">
+        <div class="step-num sn-active">5</div>
+        <div>
+          <div class="step-lbl">Why 5 — the deepest question</div>
+          <div class="step-q">Why were community care and facility care designed without a shared learning loop — and whose responsibility is it to build that connection?</div>
+        </div>
+      </div>
+      <div class="dialogue">
+        <div class="narr">This is the hardest Why — because it asks the leaders in the room to examine their own roles. The facilitator holds the space carefully.</div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"Let's be honest about this. The CHW program and the facility exist within the same health system, serving the same women. Why don't they function as a connected system?"</div>
+        </div>
+        <div class="spk">
+          <div class="av av-sv">SV</div>
+          <div class="bub">"Partly history — the programs were set up at different times, by different teams. The community program was designed to extend reach. The facility was designed to deliver clinical care. Integration was never the starting assumption."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-mw">MW</div>
+          <div class="bub">"And partly because there is no leadership role that spans both. The supervisor owns the CHW program. The facility has its own clinical leadership. No one's job description says: 'ensure that clinical learning flows between these two levels.' That gap in accountability has never been named."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-cw">CW</div>
+          <div class="bub">"Without that shared leadership, both sides do their work well in isolation — but the interface between them is nobody's responsibility. And the CHW is working alone in the community, making high-stakes decisions, with no feedback loop and no one bridging her experience to the broader clinical system."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-fa">FA</div>
+          <div class="bub">"So the root cause is not a knowledge gap in the CHW. It is a leadership and design gap at the system level — no one has been accountable for building and maintaining the clinical connection between community and facility care."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-mw">MW</div>
+          <div class="bub">"And that means the CHW is being asked to exercise sound clinical judgment, in isolation, without outcome feedback, without a clinical mentor, and without any structured connection to the facility whose care she is meant to complement. That is asking a great deal."</div>
+        </div>
+        <div class="spk">
+          <div class="av av-sv">SV</div>
+          <div class="bub">"Which means the question for us — as leaders — is not 'what is wrong with our CHWs.' It is: 'what have we failed to build for them?'"</div>
+        </div>
+      </div>
+      <div class="pause">
+        <div class="pause-t">&#9995; Pause and think</div>
+        <div class="pause-b">The team has arrived at a root cause about leadership accountability and system design. It asks something of every leader in the room. How would you write this as a root cause statement?</div>
+      </div>
+      <button class="btn-reveal" onclick="revealAnswer(5)">&#128065; Reveal the root cause</button>
+      <div class="answer-wrap" id="r5">
+        <div class="rootcause">
+          <div class="rootcause-lbl">Root cause</div>
+          <div class="rootcause-txt">Community-level care and facility-based care were designed and have operated as separate systems, with no shared learning loop and no leadership accountability for the interface between them. CHWs make high-stakes referral decisions without outcome feedback, without structured clinical mentorship, and without a connection to the facility whose care they are meant to bridge. As a result, clinical judgment cannot develop or self-correct over time — and referral practice erodes silently across sites.</div>
+          <div class="rootcause-note">The question this root cause puts to every clinical leader in the room: who is responsible for building the connection between these two levels of care — and what would it look like if they did?</div>
+        </div>
+        <div class="leadership-note" style="margin-top:.85rem;">
+          <div class="leadership-note-t">&#9679; A note on leadership and root cause analysis</div>
+          <div class="leadership-note-b">Notice where the investigation ended. It did not end with a failing CHW. It ended with a leadership question: who owns the interface between community and facility care? Root cause analysis, done well, always surfaces accountability — not to assign blame, but to clarify who has the power and the responsibility to change the system.</div>
+        </div>
+        <button class="btn-next" onclick="advance(5)">See what the team does next &#8595;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector" id="conn5"></div>
+
+  <!-- ACTIONS + SUMMARY -->
+  <div id="s6" class="rca-section">
+    <div class="card">
+      <div style="margin-bottom:.85rem"><span class="tag tag-answer">From root cause to action</span></div>
+      <p style="font-size:14px; color:#5f5e5a; margin-bottom:.75rem; line-height:1.6">A 5 Whys is only useful if it changes something. Notice the difference between a surface fix and one matched to the actual root cause.</p>
+      <div class="action-pair">
+        <div class="ac ac-bad">
+          <div class="ac-lbl">&#10007; Surface fix</div>
+          <div class="ac-txt">Remind CHWs of the referral criteria. Add referral rate to their individual performance reviews. Retrain the lowest-performing sites.</div>
+        </div>
+        <div class="ac ac-good">
+          <div class="ac-lbl">&#10003; Systemic fix</div>
+          <div class="ac-txt">Assign a clinical leader to own the community-facility interface. Establish a referral feedback protocol. Redesign supervision to include case review with outcomes. Create a shared learning channel between CHWs and facility clinicians.</div>
+        </div>
+      </div>
+      <p style="font-size:13px; color:#5f5e5a; margin-top:.9rem; line-height:1.6">The surface fix puts pressure on individuals to perform better inside a system that was never designed to support them. The systemic fix builds what was missing — and gives CHWs the feedback loop they need to grow.</p>
+    </div>
+
+    <div class="card" style="background:#f4f3f0;">
+      <div style="font-size:11px; font-weight:700; color:#888780; text-transform:uppercase; letter-spacing:.05em; margin-bottom:.9rem;">The chain of whys — what this investigation built</div>
+      <div class="chain">
+        <div class="ci">
+          <div style="display:flex;flex-direction:column;align-items:center;"><div class="cdot"></div><div class="cline"></div></div>
+          <div class="ctxt"><strong>Problem:</strong> Referral rate is 34% against an 80% target, consistently across six sites.</div>
+        </div>
+        <div class="ci">
+          <div style="display:flex;flex-direction:column;align-items:center;"><div class="cdot"></div><div class="cline"></div></div>
+          <div class="ctxt"><strong>Why 1:</strong> Referral practice is highly inconsistent — variable across CHWs and sites.</div>
+        </div>
+        <div class="ci">
+          <div style="display:flex;flex-direction:column;align-items:center;"><div class="cdot"></div><div class="cline"></div></div>
+          <div class="ctxt"><strong>Why 2:</strong> CHWs without recent clinical reinforcement rely on personal judgment, which drifts and varies.</div>
+        </div>
+        <div class="ci">
+          <div style="display:flex;flex-direction:column;align-items:center;"><div class="cdot"></div><div class="cline"></div></div>
+          <div class="ctxt"><strong>Why 3:</strong> Supervision is structured around administrative tasks, not clinical development — and even when case discussions happen, CHWs receive no outcome feedback from the facility.</div>
+        </div>
+        <div class="ci">
+          <div style="display:flex;flex-direction:column;align-items:center;"><div class="cdot"></div><div class="cline"></div></div>
+          <div class="ctxt"><strong>Why 4:</strong> Community and facility care operate as separate systems with no shared information channel — neither level of care can learn from the other.</div>
+        </div>
+        <div class="ci">
+          <div style="display:flex;flex-direction:column;align-items:center;"><div class="cdot root"></div><div class="cline root"></div></div>
+          <div class="ctxt" style="color:#085041;"><strong>Root cause:</strong> No leadership role owns the interface between community and facility care. Without that accountability, there is no shared learning loop, no outcome feedback to CHWs, and no mechanism for clinical judgment to develop over time.</div>
+        </div>
+      </div>
+
+      <div style="background:#fff; border-radius:8px; padding:.9rem 1.1rem; border:0.5px solid #e0dfd8; margin-top:.75rem;">
+        <p style="font-size:13px; font-weight:700; color:#1a1a18; margin-bottom:.4rem;">What this demonstration showed about 5 Whys</p>
+        <p style="font-size:13px; color:#5f5e5a; margin-bottom:.4rem; line-height:1.6">Each question was only possible because of the answer before it. The investigation began with an observation about CHW behavior and ended with a question about leadership accountability — because that is where the evidence led.</p>
+        <p style="font-size:13px; color:#5f5e5a; margin:0; line-height:1.6">A real 5 Whys may take more or fewer than five steps. Stop when you reach something your organization can actually change — and when you have identified who has the power and responsibility to change it.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function revealAnswer(n) {
+  var el = document.getElementById('r' + n);
+  if (el) el.style.display = 'block';
+}
+
+function advance(n) {
+  var conn = document.getElementById('conn' + n);
+  if (conn) conn.style.display = 'block';
+  var next = n + 1;
+  var sec = document.getElementById('s' + next);
+  if (sec) {
+    sec.classList.add('visible');
+    setTimeout(function() {
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  }
+  updateProgress(next);
+}
+
+function updateProgress(active) {
+  for (var i = 1; i <= 6; i++) {
+    var d = document.getElementById('pd' + i);
+    if (!d) continue;
+    d.className = 'pd';
+    if (i < active) d.classList.add('done');
+    else if (i === active) d.classList.add('active');
+  }
+}
+</script>
+</body>
+</html>
