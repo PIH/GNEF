@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Root Cause Analysis Guide — Partners in Health Coordination</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:ital@0;1&display=swap');
+
+  :root {
+    --red: #C0392B;
+    --red-light: #f9eeec;
+    --red-mid: #e8c5c0;
+    --teal: #1a7a6e;
+    --teal-light: #eaf4f3;
+    --purple: #5c4b9e;
+    --purple-light: #f0eef9;
+    --blue: #1e5fa8;
+    --blue-light: #eaf0f9;
+    --coral: #b84c2a;
+    --coral-light: #faf0ec;
+    --text: #1a1a1a;
+    --text-muted: #5a5a5a;
+    --text-subtle: #8a8a8a;
+    --border: #e0ddd8;
+    --border-light: #edeae6;
+    --bg: #faf9f7;
+    --bg-card: #ffffff;
+    --bg-intro: #f5f2ee;
+    --font-sans: 'IBM Plex Sans', sans-serif;
+    --font-serif: 'IBM Plex Serif', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* Header */
+  .page-header {
+    background: var(--red);
+    color: white;
+    padding: 2.5rem 2rem 2rem;
+    border-bottom: 4px solid #96201a;
+  }
+  .page-header .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.5rem;
+  }
+  .page-header h1 {
+    font-family: var(--font-serif);
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 0.5rem;
+  }
+  .page-header .subtitle {
+    font-size: 13px;
+    opacity: 0.8;
+    max-width: 560px;
+  }
+
+  /* Main layout */
+  .page-body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 1.75rem;
+    gap: 0;
+  }
+  .tab-btn {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 0.65rem 1.25rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--red);
+    border-bottom-color: var(--red);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Intro card */
+  .intro-card {
+    background: var(--bg-intro);
+    border-left: 3px solid var(--red);
+    border-radius: 0 6px 6px 0;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+  .intro-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--red);
+    margin-bottom: 0.6rem;
+  }
+  .intro-card p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+  .intro-card p:last-child { margin-bottom: 0; }
+
+  /* Root question */
+  .root-q-label {
+    font-size: 11px;
+    color: var(--text-subtle);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+  }
+  .root-q {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text);
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 0.9rem 1.25rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+  }
+  .root-q em { font-style: normal; font-weight: 500; }
+  .tree-instruction {
+    font-size: 12px;
+    color: var(--text-subtle);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Branch */
+  .branch {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-card);
+    margin-bottom: 0.75rem;
+    transition: box-shadow 0.15s;
+  }
+  .branch:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+  .branch-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 0.9rem 1.1rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    color: var(--text);
+    font-family: var(--font-sans);
+    transition: background 0.12s;
+  }
+  .branch-header:hover { background: var(--bg); }
+  .branch-label {
+    font-size: 14px;
+    font-weight: 500;
+    flex: 1;
+    line-height: 1.55;
+  }
+  .branch-chevron {
+    font-size: 18px;
+    color: var(--text-subtle);
+    margin-top: 1px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    font-style: normal;
+  }
+  .branch.open .branch-chevron { transform: rotate(90deg); }
+
+  .branch-body {
+    display: none;
+    padding: 0 1.1rem 1rem 2.5rem;
+    border-top: 1px solid var(--border-light);
+  }
+  .branch.open .branch-body { display: block; }
+
+  /* Color dots */
+  .dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+  .dot-orange { background: #C0392B; }
+  .dot-teal   { background: #1a7a6e; }
+  .dot-purple { background: #5c4b9e; }
+  .dot-blue   { background: #1e5fa8; }
+  .dot-coral  { background: #b84c2a; }
+
+  /* Sub-label */
+  .sub-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-subtle);
+    margin: 0.9rem 0 0.5rem;
+  }
+
+  /* Sub-branches */
+  .sub-branches { display: flex; flex-direction: column; gap: 0.5rem; }
+  .sub-branch {
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .sub-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0.55rem 0.85rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    color: var(--text);
+    font-family: var(--font-sans);
+    transition: background 0.12s;
+  }
+  .sub-header:hover { background: var(--border-light); }
+  .sub-header-text {
+    font-size: 13px;
+    font-weight: 500;
+    flex: 1;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .sub-chevron {
+    font-size: 14px;
+    color: var(--text-subtle);
+    margin-top: 1px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    font-style: normal;
+  }
+  .sub-branch.open .sub-chevron { transform: rotate(90deg); }
+
+  .sub-body {
+    display: none;
+    padding: 0.25rem 0.85rem 0.85rem 1.5rem;
+    border-top: 1px solid var(--border-light);
+    background: var(--bg-card);
+  }
+  .sub-branch.open .sub-body { display: block; }
+
+  /* Action sections */
+  .action-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-subtle);
+    margin: 0.75rem 0 0.35rem;
+  }
+  .actions { display: flex; flex-direction: column; gap: 0.4rem; }
+  .action-item {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    padding-left: 0.85rem;
+    border-left: 2px solid var(--border);
+  }
+
+  /* Progress note */
+  .progress-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.85rem;
+    border-left: 3px solid var(--red-mid);
+    background: var(--red-light);
+    border-radius: 0 4px 4px 0;
+    line-height: 1.6;
+  }
+
+  /* Color-coded branch accent lines */
+  .branch[data-color="orange"] { border-left: 3px solid var(--red); }
+  .branch[data-color="teal"]   { border-left: 3px solid var(--teal); }
+  .branch[data-color="purple"] { border-left: 3px solid var(--purple); }
+  .branch[data-color="blue"]   { border-left: 3px solid var(--blue); }
+  .branch[data-color="coral"]  { border-left: 3px solid var(--coral); }
+
+  /* Footer */
+  .page-footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    font-size: 12px;
+    color: var(--text-subtle);
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  /* Print */
+  @media print {
+    .branch-body, .sub-body { display: block !important; }
+    .branch-chevron, .sub-chevron { display: none; }
+    .tabs { display: none; }
+    .tab-panel { display: block !important; page-break-before: always; }
+    .tab-panel:first-of-type { page-break-before: avoid; }
+    body { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">Partners in Health Coordination — Internal Working Document</div>
+  <h1>Root Cause Analysis Guide:<br>Understanding Why Initiatives Stall</h1>
+  <div class="subtitle">A structured guide for program and department leads to explore why teams are slow, reluctant, or resistant to adopting best practices and improvements.</div>
+</div>
+
+<div class="page-body">
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('dh', this)">Digital health &amp; data systems</button>
+    <button class="tab-btn" onclick="switchTab('qi', this)">Clinical quality improvement</button>
+  </div>
+
+  <!-- ===== DIGITAL HEALTH TAB ===== -->
+  <div class="tab-panel active" id="tab-dh">
+
+    <div class="intro-card">
+      <div class="intro-label">How to use this guide — digital health &amp; data systems</div>
+      <p>When a data or digital health initiative stalls, the reason most often given is that the team or department simply doesn't have time for it. It's worth pausing on that explanation — because "we don't have time" is rarely the full picture. What it usually means is that the team hasn't been able to prioritize this initiative over the other demands on their time. That's a meaningfully different problem, and one we can do something about.</p>
+      <p>This version is oriented toward initiatives involving data collection, data quality, digital tools, EMR use, reporting, and information systems. Use it when a team or department is struggling to adopt or sustain a data-related practice — whether that's completing records accurately, using a reporting platform consistently, or participating in a data review process.</p>
+      <p>Set aside the "no time" explanation and work through the root causes below. For each one that resonates, dig into the sub-questions to identify what's actually in the way.</p>
+    </div>
+
+    <div class="root-q-label">Starting question — reframe "we don't have time" as:</div>
+    <div class="root-q">Why is the team or department not able to prioritize <em>X</em> over their other work?</div>
+    <div class="tree-instruction">Click a root cause below to explore deeper why questions and recommended actions.</div>
+
+    <!-- DH B1 -->
+    <div class="branch" data-color="orange" id="dh-b1">
+      <button class="branch-header" onclick="toggle('dh-b1')">
+        <span class="dot dot-orange"></span>
+        <span class="branch-label">They are held accountable to other work — there is no current accountability for X</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: why does no accountability exist?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="dh-b1a">
+            <button class="sub-header" onclick="toggle('dh-b1a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Data completeness or quality has never appeared in any performance review or indicator set</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Data quality is often treated as a technical concern owned by an M&amp;E or informatics team — frontline teams aren't measured on it and may not know they're expected to be</div>
+                <div class="action-item">Reporting dashboards may track coverage or outcomes but not the completeness or accuracy of the underlying records</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Add a simple data completeness indicator to existing review meetings — even tracking one critical field (e.g. diagnosis recorded, follow-up date entered) creates visibility</div>
+                <div class="action-item">Share a completeness report with team leads regularly so the issue is visible before it becomes a problem for reporting</div>
+                <div class="action-item">Frame accountability positively at first — recognition for improvement rather than consequences for gaps</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b1b">
+            <button class="sub-header" onclick="toggle('dh-b1b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Program leadership hasn't signaled that data quality is a priority, only that data is needed</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Teams receive regular requests for data submissions but rarely hear feedback on quality — the implicit message is that submitting anything is sufficient</div>
+                <div class="action-item">Data quality initiatives from an M&amp;E or informatics team may not carry the same weight as directives from clinical or program leadership</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Request that program or clinical leadership explicitly endorse data quality as a priority — not just data submission — in team communications and reviews</div>
+                <div class="action-item">Close the feedback loop: share what happens to data after it is submitted, so teams understand that quality affects decisions, not just compliance</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b1c">
+            <button class="sub-header" onclick="toggle('dh-b1c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Submission deadlines are tracked; data accuracy is not — so accuracy always loses</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Teams are measured on whether reports are submitted on time, not on whether the data in them is complete or correct — so speed takes precedence over quality</div>
+                <div class="action-item">Corrections and re-submissions are rarely required, reinforcing the idea that incomplete data is acceptable</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Introduce a quality check step before submission is considered complete — even a brief peer review of key fields changes the incentive</div>
+                <div class="action-item">Where feasible, flag submissions with critical missing fields and return them for completion before accepting them as final</div>
+                <div class="action-item">Distinguish between submission compliance and data quality in reporting — make both visible separately</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DH B2 -->
+    <div class="branch" data-color="teal" id="dh-b2">
+      <button class="branch-header" onclick="toggle('dh-b2')">
+        <span class="dot dot-teal"></span>
+        <span class="branch-label">They don't see the value in X — it doesn't solve a problem for them or help their work</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: why is value not apparent?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="dh-b2a">
+            <button class="sub-header" onclick="toggle('dh-b2a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Data collection serves reporting upstream — it doesn't visibly help the team doing the collecting</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Frontline staff enter data into systems that generate reports they never see — the value flows to program managers, donors, or policymakers, not to the people doing the work</div>
+                <div class="action-item">When data entry feels like paperwork rather than a clinical or operational tool, it competes poorly with direct patient care</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Create a local feedback product — even a simple monthly summary showing the team's own trends — so data entry produces something visible and useful at their level</div>
+                <div class="action-item">Ask the team: "What question about your patients would you most like to be able to answer?" Then show how better data quality makes that possible</div>
+                <div class="action-item">Where feasible, use the data to surface something actionable for the team — a patient due for follow-up, a gap in a protocol — so data entry has an immediate local payoff</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b2b">
+            <button class="sub-header" onclick="toggle('dh-b2b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The team hasn't seen data used to make a decision that affected them</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Data may be collected and reported but teams rarely hear how it was used — decisions made using their data are invisible to them</div>
+                <div class="action-item">If data is only ever cited in problems ("your numbers are low") rather than solutions ("because of your data, we were able to..."), trust in its value erodes</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Make a point of closing the loop: when program data influences a resource decision, policy change, or guideline update, tell the teams whose data contributed</div>
+                <div class="action-item">Share a concrete example: "The data you submitted last quarter showed us X, which led to Y" — even one example per year changes the perception of data's purpose</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b2c">
+            <button class="sub-header" onclick="toggle('dh-b2c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Past data systems have come and gone — the team is skeptical this one will be different</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Health programs often introduce new data systems with each grant cycle, requiring teams to learn new platforms repeatedly without continuity</div>
+                <div class="action-item">Systems are sometimes deployed, used briefly, and then abandoned — leaving teams unwilling to invest in the next one</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Acknowledge the history directly: "I know we've asked you to learn new systems before — here's what's different and why this one is worth the investment"</div>
+                <div class="action-item">Provide a credible commitment to continuity — a timeline, a sustainability plan, or leadership endorsement signaling this is not a short-term pilot</div>
+                <div class="action-item">Deliver an early, visible win from the system — something the team finds useful within the first 60 days</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DH B3 -->
+    <div class="branch" data-color="purple" id="dh-b3">
+      <button class="branch-header" onclick="toggle('dh-b3')">
+        <span class="dot dot-purple"></span>
+        <span class="branch-label">They see X as useful but aren't sure how to lead the change needed to make it happen</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: what is blocking implementation?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="dh-b3a">
+            <button class="sub-header" onclick="toggle('dh-b3a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The team doesn't know how to move from "we should do this" to an actual workflow change</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Data quality improvement is often described in abstract terms — "improve completeness," "ensure accuracy" — without a concrete workflow or process to follow</div>
+                <div class="action-item">There may be no designated data focal point on the team, so responsibility for driving change is diffuse</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Offer a concrete starting workflow: e.g. a weekly 20-minute record review by a designated person, using a simple completeness checklist</div>
+                <div class="action-item">Name a data champion or focal point within the team — even informally — to own the process</div>
+                <div class="action-item">Check in at 30 days with the focal point to troubleshoot early friction before it becomes a reason to stop</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b3b">
+            <button class="sub-header" onclick="toggle('dh-b3b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The data focal point lacks the authority to change how clinicians document</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Data quality is often owned by an M&amp;E officer or records clerk who has no authority over clinical staff documentation practices</div>
+                <div class="action-item">Clinicians may not see data entry as part of their clinical role — and without a senior clinical voice endorsing it, they won't change their behavior</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Engage the medical director, head nurse, or clinical lead to frame complete documentation as a clinical responsibility, not just an administrative one</div>
+                <div class="action-item">Reframe the ask: "complete records support continuity of care for your patients" lands differently than "please fill in all fields"</div>
+                <div class="action-item">Explore whether documentation standards can be included in clinical supervision or peer review processes already in place</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b3c">
+            <button class="sub-header" onclick="toggle('dh-b3c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Staff lack the digital literacy or system training to use the tool correctly</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">EMR and reporting platforms often assume a level of digital comfort that not all staff have — errors and incomplete records may be symptoms of skill gaps, not carelessness</div>
+                <div class="action-item">Initial training may have covered system basics but not the specific fields or workflows most prone to error</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Identify the fields with the highest error or omission rates and provide targeted, role-specific guidance on those — not a full system retraining</div>
+                <div class="action-item">Create a one-page visual job aid for the most common documentation tasks, kept at the point of entry</div>
+                <div class="action-item">Build basic system use into staff onboarding so new hires start with the skill rather than learning on the job</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b3d">
+            <button class="sub-header" onclick="toggle('dh-b3d')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The team is managing too many simultaneous demands to absorb another change</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Understaffed teams managing high patient volumes have no genuine bandwidth for process change, regardless of motivation</div>
+                <div class="action-item">Data or digital initiatives may arrive on top of clinical or administrative demands that are already at capacity</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Have an honest conversation about current load before adding X — and be willing to sequence rather than stack initiatives</div>
+                <div class="action-item">Identify the single highest-impact data quality change and focus there first; resist the urge to fix everything at once</div>
+                <div class="action-item">If capacity is genuinely the constraint, bring this to leadership as a resourcing issue — not a motivation or skill gap</div>
+              </div>
+              <div class="progress-note">Note: proceeding without addressing capacity typically produces a brief burst of compliance followed by reversion. It is worth naming the constraint directly.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- DH B4 -->
+    <div class="branch" data-color="blue" id="dh-b4">
+      <button class="branch-header" onclick="toggle('dh-b4')">
+        <span class="dot dot-blue"></span>
+        <span class="branch-label">They want to do X but lack the tools, systems, or infrastructure to do it reliably</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: what is the infrastructure gap?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="dh-b4a">
+            <button class="sub-header" onclick="toggle('dh-b4a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The system or connectivity needed for X doesn't reliably exist at this location</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Digital tools are often designed assuming consistent electricity and internet — conditions that many care delivery locations don't have</div>
+                <div class="action-item">Devices may be shared across shifts or departments, making consistent data entry at the point of care impractical</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Audit actual infrastructure before deployment: power reliability, connectivity, device availability, and system uptime — document the real baseline</div>
+                <div class="action-item">Design an offline-capable or paper-bridge workflow for locations where connectivity is intermittent</div>
+                <div class="action-item">Escalate infrastructure gaps as program blockers, not IT complaints — frame them in terms of their impact on data quality and reporting</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b4b">
+            <button class="sub-header" onclick="toggle('dh-b4b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The system exists but is difficult to use, slow, or poorly adapted to this team's workflow</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">EMRs and reporting tools are frequently configured centrally without input from the teams who use them day-to-day</div>
+                <div class="action-item">Workarounds — skipped fields, placeholder entries, parallel paper records — are often visible signs that the system doesn't fit the workflow</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Sit with a staff member and observe them using the system in real conditions — friction invisible in a meeting becomes obvious within minutes</div>
+                <div class="action-item">Identify the fields with the highest skip or error rates and investigate whether they can be simplified, pre-populated, or removed</div>
+                <div class="action-item">Treat workarounds as diagnostic signals: if everyone is bypassing the same step, that step is the problem, not the staff</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b4c">
+            <button class="sub-header" onclick="toggle('dh-b4c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Multiple disconnected systems require the same data to be entered more than once</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Teams often operate across an EMR, a program-specific database, a government HMIS, and spreadsheets — with no integration between them</div>
+                <div class="action-item">Each system may have been introduced by a different program or funder, with no coordination on data standards or interoperability</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Map all systems currently in use and identify where data is being entered more than once — quantify the duplication burden</div>
+                <div class="action-item">Prioritize embedding X into a system the team already uses, rather than adding a new one</div>
+                <div class="action-item">Escalate fragmentation to program and technology leadership — this is a structural problem individual teams cannot resolve on their own</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="dh-b4d">
+            <button class="sub-header" onclick="toggle('dh-b4d')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">No one has protected time or a designated role for data quality tasks</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Data quality tasks — record review, error correction, completeness checks — are assumed to happen alongside clinical work, but in practice are always displaced by it</div>
+                <div class="action-item">Without a named owner, data quality belongs to everyone in principle and no one in practice</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Identify a named data focal point — a records officer, program assistant, or rotating role — and make the responsibility explicit</div>
+                <div class="action-item">Be concrete about time: "We need 30–45 minutes per week for record review" is actionable; "please prioritize data quality" is not</div>
+                <div class="action-item">If no protected time can be found, bring this to leadership as a resource question — the work cannot happen without time assigned to it</div>
+              </div>
+              <div class="progress-note">Note: if no protected time or named role exists, solving the tool or training problem will not be sufficient — the workflow itself needs to change.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end tab-dh -->
+
+
+  <!-- ===== CLINICAL QI TAB ===== -->
+  <div class="tab-panel" id="tab-qi">
+
+    <div class="intro-card">
+      <div class="intro-label">How to use this guide — clinical quality improvement</div>
+      <p>When a clinical quality improvement initiative stalls, the reason most often given is that the team or department simply doesn't have time for it. It's worth pausing on that explanation — because "we don't have time" is rarely the full picture. What it usually means is that the team hasn't been able to prioritize this initiative over the other demands on their time. That's a meaningfully different problem, and one we can do something about.</p>
+      <p>This version is oriented toward clinical QI initiatives — adoption of clinical guidelines and protocols, changes to care pathways, audit and feedback cycles, mortality and morbidity review, infection prevention practices, and other efforts to improve the quality or safety of care delivered. Use it when a clinical team or department is struggling to adopt, implement, or sustain a quality improvement practice.</p>
+      <p>Set aside the "no time" explanation and work through the root causes below. For each one that resonates, dig into the sub-questions to identify what's actually in the way.</p>
+    </div>
+
+    <div class="root-q-label">Starting question — reframe "we don't have time" as:</div>
+    <div class="root-q">Why is the team or department not able to prioritize <em>X</em> over their other work?</div>
+    <div class="tree-instruction">Click a root cause below to explore deeper why questions and recommended actions.</div>
+
+    <!-- QI B1 -->
+    <div class="branch" data-color="orange" id="qi-b1">
+      <button class="branch-header" onclick="toggle('qi-b1')">
+        <span class="dot dot-orange"></span>
+        <span class="branch-label">They are held accountable to other work — there is no current accountability for X</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: why does no accountability exist?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="qi-b1a">
+            <button class="sub-header" onclick="toggle('qi-b1a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">X has never been included in clinical supervision, performance review, or quality indicators</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">QI initiatives are often introduced as add-ons to clinical work, without being embedded in existing supervision or performance structures</div>
+                <div class="action-item">Clinical teams are primarily measured on throughput — patient volumes, waiting times — rather than on adherence to protocols or participation in QI processes</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Work with clinical leadership to add a QI participation indicator to existing performance reviews — even tracking attendance at audit meetings creates visibility</div>
+                <div class="action-item">Include X in clinical supervision agendas so it is regularly discussed as part of practice, not treated as a separate initiative</div>
+                <div class="action-item">Start with observation and recognition rather than consequence — the goal is to normalize QI as part of clinical practice</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b1b">
+            <button class="sub-header" onclick="toggle('qi-b1b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Clinical leadership hasn't visibly endorsed X as a priority for this team</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">QI initiatives promoted by program coordinators or quality officers don't carry the same weight with clinical staff as direction from a medical director, head nurse, or department chief</div>
+                <div class="action-item">Senior clinicians may privately support X but haven't communicated this publicly or consistently to their teams</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Identify the clinical authority figure whose endorsement would matter most to this team and engage them directly — ask them to raise X explicitly in team meetings or ward rounds</div>
+                <div class="action-item">Provide clinical leadership with brief talking points connecting X to patient outcomes they already care about</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b1c">
+            <button class="sub-header" onclick="toggle('qi-b1c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Patient volume targets are tracked; quality process indicators are not — so volume always wins</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">When clinical teams are under pressure to see more patients, QI activities — audits, case reviews, protocol training — are the first things displaced</div>
+                <div class="action-item">The implicit message when only volume is measured is that quality processes are optional extras, not core clinical responsibilities</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Work with leadership to protect dedicated time for QI activities on the clinical schedule — even 30 minutes per week becomes sustainable if it's blocked</div>
+                <div class="action-item">Make QI participation visible in the same reporting structures as volume metrics — track both, side by side</div>
+                <div class="action-item">Where possible, connect X directly to efficiency gains that reduce volume pressure — QI and throughput don't have to be framed as opposites</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- QI B2 -->
+    <div class="branch" data-color="teal" id="qi-b2">
+      <button class="branch-header" onclick="toggle('qi-b2')">
+        <span class="dot dot-teal"></span>
+        <span class="branch-label">They don't see the value in X — it doesn't solve a problem for them or help their work</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: why is value not apparent?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="qi-b2a">
+            <button class="sub-header" onclick="toggle('qi-b2a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">X was designed around national or program standards that don't feel relevant to this team's patient population</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Clinical guidelines developed at national or HQ level may not account for local epidemiology, resource constraints, or patient demographics — making them feel like boxes to tick rather than tools to use</div>
+                <div class="action-item">Teams may have learned through experience that standard protocols need local adaptation — and feel frustrated when this isn't acknowledged</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Acknowledge the adaptation gap directly: invite the team to identify where the guideline fits their context and where it needs adjustment</div>
+                <div class="action-item">Work toward a locally adapted version of the protocol that preserves the clinical intent while accounting for real constraints — and document the adaptations formally</div>
+                <div class="action-item">Involve the clinical team in the QI design process from the start, not just the implementation phase</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b2b">
+            <button class="sub-header" onclick="toggle('qi-b2b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Clinicians don't see evidence that X improves patient outcomes in settings like theirs</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Evidence for clinical interventions often comes from high-resource settings — clinical staff may reasonably question whether it applies in their context</div>
+                <div class="action-item">QI results from other sites may not have been shared with this team, so the evidence base feels abstract rather than demonstrated</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Find and share evidence or case examples from comparable settings — low-resource, high-burden, or geographically similar — rather than defaulting to high-income country studies</div>
+                <div class="action-item">If internal data exists from other sites that have implemented X, share it specifically: "At a site with a similar patient load, this change led to..."</div>
+                <div class="action-item">Offer to run a small pilot with this team to generate local evidence — a 90-day test with clear metrics is often more persuasive than any external study</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b2c">
+            <button class="sub-header" onclick="toggle('qi-b2c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The team has been through QI cycles before that added work without improving care</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Clinical teams that have participated in audit cycles or protocol rollouts that produced no visible change often approach new QI initiatives with guarded skepticism</div>
+                <div class="action-item">If previous QI efforts were externally driven and disappeared when the project ended, the team has learned that these initiatives are temporary</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Name the pattern directly: "I know QI hasn't always led to change here — help me understand what got in the way before, so we can do this differently"</div>
+                <div class="action-item">Design X to produce a visible clinical improvement within 60–90 days — something the team can point to as evidence the effort was worth it</div>
+                <div class="action-item">Commit to a feedback loop: share what the QI process found and what will change as a result, every time</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b2d">
+            <button class="sub-header" onclick="toggle('qi-b2d')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The rationale for X hasn't been communicated to the clinical staff who would implement it</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">QI initiatives are often introduced through managers or department heads without a direct conversation with the nurses, clinicians, or support staff who will do the work</div>
+                <div class="action-item">Written guidance — SOPs, policy memos, training manuals — may exist but isn't reaching or resonating with frontline staff</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Request time directly with the clinical team — not just the department head — to explain why X matters in plain, patient-centered language</div>
+                <div class="action-item">Frame X around a clinical problem the team already recognizes: "This is about reducing the number of patients who come back with complications"</div>
+                <div class="action-item">Identify a respected clinician on the team who is already convinced and invite them to champion X among peers — peer influence is more powerful than external advocacy</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- QI B3 -->
+    <div class="branch" data-color="purple" id="qi-b3">
+      <button class="branch-header" onclick="toggle('qi-b3')">
+        <span class="dot dot-purple"></span>
+        <span class="branch-label">They see X as useful but aren't sure how to lead the change needed to make it happen</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: what is blocking implementation?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="qi-b3a">
+            <button class="sub-header" onclick="toggle('qi-b3a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The team doesn't know how to translate a guideline or standard into changed daily practice</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Clinical guidelines describe what should happen, not how to make it happen in a specific setting — the implementation gap is real and often underestimated</div>
+                <div class="action-item">Teams may understand the clinical standard but have no process for reviewing current practice, identifying gaps, and making targeted changes</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Offer a structured starting point: a brief baseline audit, a gap analysis tool, or a simple PDSA cycle template adapted to their context</div>
+                <div class="action-item">Identify one specific clinical practice to change first — not "improve sepsis management" but "ensure all patients with fever have a triage time recorded within 15 minutes"</div>
+                <div class="action-item">Support the first cycle closely, then step back — the goal is to build the team's own capacity to run QI, not dependency on external support</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b3b">
+            <button class="sub-header" onclick="toggle('qi-b3b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The QI lead lacks the clinical authority to change how senior staff practice</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">QI is often driven by coordinators, nurses, or program staff who do not have authority over physician or senior clinical practice — creating an awkward dynamic</div>
+                <div class="action-item">Senior clinicians may resist process changes proposed by colleagues they perceive as junior, regardless of clinical merit</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Engage the medical director or department chief as the visible owner of X — the QI lead can drive the process, but the clinical authority figure needs to front it</div>
+                <div class="action-item">Frame the QI process as peer review and shared learning rather than compliance — this is more culturally acceptable in clinical settings</div>
+                <div class="action-item">Where possible, let the data speak: audit findings presented by peers carry more weight than directives from a coordinator</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b3c">
+            <button class="sub-header" onclick="toggle('qi-b3c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Clinical staff haven't been trained in QI methods and don't know where to start</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">QI methodology — PDSA cycles, root cause analysis, audit and feedback — is not part of most clinical training curricula in the region</div>
+                <div class="action-item">Asking a clinical team to "run a QI initiative" without equipping them with basic methods sets them up to stall at the first decision point</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Offer a brief, practical orientation to QI methods — 2–3 hours, focused on tools they will actually use, not a full curriculum</div>
+                <div class="action-item">Provide a simple QI toolkit adapted to the clinical context: a one-page audit form, a basic data collection template, a problem statement guide</div>
+                <div class="action-item">Pair the team with a mentor or peer from a site that has successfully run a QI cycle — learning from a clinical peer is often more effective than formal training</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b3d">
+            <button class="sub-header" onclick="toggle('qi-b3d')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The team is managing clinical demand that leaves no bandwidth for improvement work</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">In high-burden clinical environments, every available hour goes to direct patient care — improvement work, which is inherently future-oriented, cannot compete with immediate need</div>
+                <div class="action-item">QI activities that aren't scheduled as protected time are reliably displaced by clinical emergencies and volume surges</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Work with clinical leadership to block specific, recurring time for QI — even one hour per month that is genuinely protected from clinical duties</div>
+                <div class="action-item">Design QI activities to be as lightweight as possible: a 10-item audit, a 20-minute case review, rather than a full-day workshop</div>
+                <div class="action-item">If no time can be protected, escalate to leadership as a resource and staffing issue — QI cannot happen without it</div>
+              </div>
+              <div class="progress-note">Note: in high-burden clinical settings this is often the real constraint. Addressing it requires a leadership conversation about resourcing, not a motivation conversation with the clinical team.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- QI B4 -->
+    <div class="branch" data-color="coral" id="qi-b4">
+      <button class="branch-header" onclick="toggle('qi-b4')">
+        <span class="dot dot-coral"></span>
+        <span class="branch-label">They want to do X but the clinical workflows, protocols, or structures needed to support it aren't in place</span>
+        <span class="branch-chevron">›</span>
+      </button>
+      <div class="branch-body">
+        <div class="sub-label">Dig deeper: what is missing from the clinical environment?</div>
+        <div class="sub-branches">
+
+          <div class="sub-branch" id="qi-b4a">
+            <button class="sub-header" onclick="toggle('qi-b4a')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">There is no locally adapted SOP or protocol for X — staff are expected to interpret a national guideline themselves</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">National clinical guidelines are often written at a level of abstraction that requires significant interpretation to apply in a specific setting — a step that is rarely resourced</div>
+                <div class="action-item">Different clinicians may be interpreting the same guideline differently, creating unintentional variation in practice that makes QI measurement difficult</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Work with the clinical team to develop a brief, locally adapted SOP — a one-page flowchart or decision aid that translates the guideline into the specific steps staff will follow at this location</div>
+                <div class="action-item">Involve a mix of clinical roles in the adaptation process so the SOP reflects real workflow rather than an idealized one</div>
+                <div class="action-item">Pilot the SOP with a small group, gather feedback, and revise before broader rollout — avoid treating the first draft as final</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b4b">
+            <button class="sub-header" onclick="toggle('qi-b4b')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">The supplies, equipment, or physical environment needed for X are not consistently available</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">Clinical QI initiatives sometimes assume resource availability that doesn't exist — a hand hygiene protocol requiring a sink at every bedside, or a triage protocol requiring equipment that stockouts regularly</div>
+                <div class="action-item">Teams may have tried to implement X before and found it impossible without the resources — their reluctance now reflects a rational response to that experience</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Before launching X, audit the specific resources it requires and confirm availability — don't assume the supply chain will support it without checking</div>
+                <div class="action-item">Design a resource-adapted version of X for conditions of intermittent supply — define minimum requirements for full implementation versus a constrained alternative</div>
+                <div class="action-item">Escalate supply and equipment gaps as clinical quality risks, not just procurement issues — this framing is more likely to prompt action</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b4c">
+            <button class="sub-header" onclick="toggle('qi-b4c')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">There is no routine structure — audit cycle, M&amp;M review, quality meeting — for QI to happen within</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">QI requires a recurring structure for data review, reflection, and decision-making — without this, it remains a one-off activity rather than an embedded practice</div>
+                <div class="action-item">Facilities that have never had a functioning audit cycle or quality committee have no institutional home for QI work, making each initiative start from scratch</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Prioritize establishing a minimal recurring QI structure before launching X — a monthly 30-minute quality review meeting is a foundation everything else can build on</div>
+                <div class="action-item">Attach X to an existing clinical meeting if one exists rather than creating a new one — reducing the scheduling burden</div>
+                <div class="action-item">Support the facility to develop a simple terms of reference and agenda for a quality committee, so the structure outlasts any single initiative</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sub-branch" id="qi-b4d">
+            <button class="sub-header" onclick="toggle('qi-b4d')">
+              <span class="sub-chevron">›</span>
+              <span class="sub-header-text">Responsibility for clinical quality is unclear — everyone assumes someone else owns it</span>
+            </button>
+            <div class="sub-body">
+              <div class="action-label">Why this happens</div>
+              <div class="actions">
+                <div class="action-item">In the absence of a named quality lead, QI responsibility is diffuse — nurses assume doctors own it, doctors assume the program team owns it, and nothing moves</div>
+                <div class="action-item">Where a QI role exists on paper, it may not come with protected time, decision-making authority, or support from leadership</div>
+              </div>
+              <div class="action-label">Recommended actions</div>
+              <div class="actions">
+                <div class="action-item">Work with clinical leadership to name a specific person responsible for QI at this facility — ideally a respected clinician, not only an administrator</div>
+                <div class="action-item">Define what the role entails concretely: which meetings to convene, which data to review, who to report to, and how often</div>
+                <div class="action-item">Ensure the named person has explicit backing from the medical director or department head — a QI lead without authority cannot drive change in a clinical hierarchy</div>
+              </div>
+              <div class="progress-note">Note: naming a person without giving them time, authority, or support is unlikely to produce results — all three are needed together.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end tab-qi -->
+
+</div><!-- end page-body -->
+
+<div class="page-footer">
+  Partners in Health Coordination — Internal working document. For review and feedback.
+</div>
+
+<script>
+function toggle(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
